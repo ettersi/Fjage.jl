@@ -390,6 +390,12 @@ end
 
 add(c::Container, a::Agent) = add(c, string(typeof(a)) * "-" * string(uuid4())[1:8], a)
 
+function add(c::SlaveContainer, a::Agent)
+  aid = invoke(add, Tuple{Container, Agent}, c, a)
+  _update_watch(c)
+  return aid
+end
+
 """
     kill(container::Container, aid::AgentID)
     kill(container::Container, name::String)
